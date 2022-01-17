@@ -57,6 +57,11 @@ img {
   color: #ffffff;
   border-radius: 15px;
 }
+.topnav a:hover {
+  background-color: #ff0000;
+  color: #ffffff;
+  border-radius: 15px;
+}
 
 .topnav .icon {
   display: none;
@@ -115,29 +120,6 @@ main {
 .smFont {
   font-size: 16px;
 }
-.confirmMsg {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
-.confirmMsg .content {
-  height: 72vh;
-}
-.confirmMsg .modal-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 100%;
-  position: relative;
-  top: 90px;
-  text-align: center;
-}
 .bground {
   display: none;
   position: fixed;
@@ -147,8 +129,7 @@ main {
   height: 100%;
   width: 100%;
   overflow: auto;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .content {
@@ -183,17 +164,17 @@ input {
   outline: none;
 }
 
-small{
-  color:rgb(207, 19, 19);
+small {
+  color: rgb(207, 19, 19);
   font-size: 1rem;
 }
 
-.is-valid{
-  border: 0.8px solid rgb(74, 145, 228);
+.is-valid {
+  border: 3px solid rgb(44, 156, 50);
 }
 
-.is-invalid{
-  border: 0.8px solid rgb(207, 19, 19);
+.is-invalid {
+  border: 3px solid rgb(207, 19, 19);
 }
 
 .text-control {
@@ -328,6 +309,29 @@ input[data-error]::after {
   color: #fff;
   cursor: pointer;
   border: 0;
+}
+/* Modal confirm inscription */
+.confirmMsg {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+.confirmMsg .content {
+  height: 72vh;
+}
+.confirmMsg .modal-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+  position: relative;
+  top: 90px;
+  text-align: center;
 }
 /* custom select styles */
 .custom-select {
@@ -537,6 +541,10 @@ footer {
     display: block;
     color: red;
   }
+  .topnav a.icon:hover {
+    background-color: unset;
+  }
+
   .topnav.responsive {
     position: relative;
   }
