@@ -7,6 +7,13 @@ const closeBtn = document.querySelectorAll(".close");
 const confirmMsg = document.querySelector(".confirmMsg");
 const closeMsg = document.getElementById("closeMsg");
 
+//INPUT Elements
+const first = document.getElementById("first");
+const last = document.getElementById("last");
+const mail = document.getElementById("email");
+const birthdate = document.getElementById("birthdate");
+const quantity = document.getElementById("quantity");
+
 // REGEX
 const regNoNum =
   /^[A-Za-zàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]+$/;
@@ -72,17 +79,20 @@ function firstNameValidation() {
   const contact = getData();
 
   if (contact.firstName.length < 2) {
-    document.getElementById("first").classList.add("is-invalid");
+    first.classList.add("is-invalid");
     errors.firstName.innerHTML =
       "Veuillez entrer 2 caractères ou plus pour le champ du prénom.";
     return false;
   }
 
   if (!regNoNum.test(contact.firstName)) {
+    first.classList.add("is-invalid");
     errors.firstName.innerHTML =
       "Ceci n'est pas un prénom, doit contenir que des lettres !";
     return false;
   } else {
+    first.classList.remove("is-invalid");
+    first.classList.add("is-valid");
     errors.firstName.innerText = "";
     return true;
   }
@@ -92,15 +102,20 @@ function lastNameValidation() {
   const contact = getData();
 
   if (contact.lastName.length < 2) {
+    last.classList.add("is-invalid");
     errors.lastName.innerHTML =
       "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
     return false;
   }
+  
   if (!regNoNum.test(contact.lastName)) {
+    last.classList.add("is-invalid");
     errors.lastName.innerHTML =
       "Ceci n'est pas un nom, doit contenir que des lettres !";
     return false;
   } else {
+    last.classList.remove("is-invalid");
+    last.classList.add("is-valid");
     errors.lastName.innerText = "";
     return true;
   }
@@ -112,9 +127,12 @@ function emailValidation() {
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   if (!regMail.test(contact.email)) {
+    mail.classList.add("is-invalid");
     errors.email.innerHTML = "Veuillez entrer un email valide.";
     return false;
   } else {
+    mail.classList.remove("is-invalid");
+    mail.classList.add("is-valid");
     errors.email.innerText = "";
     return true;
   }
@@ -126,19 +144,31 @@ function birthdateValidation() {
   const userBirthdate = new Date(contact.birthdate).getFullYear();
   const todayYear = new Date().getFullYear();
 
+  console.log(todayYear - userBirthdate > 100);
   if (contact.birthdate == "") {
+    birthdate.classList.add("is-invalid");
     errors.birthdate.innerHTML = "Veuillez remplir le champs.";
     return false;
   }
-  if (!regDate.test(userBirthdate) && todayYear <= userBirthdate) {
+
+  if (
+    !regDate.test(userBirthdate) ||
+    todayYear <= userBirthdate ||
+    todayYear - userBirthdate > 100
+  ) {
+    birthdate.classList.add("is-invalid");
     errors.birthdate.innerHTML = "Veuillez entrer une date valide.";
     return false;
   }
+
   if (todayYear - userBirthdate < 12) {
+    birthdate.classList.add("is-invalid");
     errors.birthdate.innerHTML =
       "Vous devez avoir 12 ans ou plus pour vous inscrire. ";
     return false;
   } else {
+    birthdate.classList.remove("is-invalid");
+    birthdate.classList.add("is-valid");
     errors.birthdate.innerText = "";
     return true;
   }
@@ -148,9 +178,18 @@ function quantityValidation() {
   const contact = getData();
 
   if (contact.quantity.length == "") {
+    quantity.classList.add("is-invalid");
     errors.quantity.innerHTML = "Veuillez entrer un chiffre !";
     return false;
+  }
+
+  if (contact.quantity < 0 || contact.quantity > 99) {
+    quantity.classList.add("is-invalid");
+    errors.quantity.innerHTML = "Vous devez entrez un nombre entre 0 et 99!";
+    return false;
   } else {
+    quantity.classList.remove("is-invalid");
+    quantity.classList.add("is-valid");
     errors.quantity.innerText = "";
     return true;
   }
@@ -192,53 +231,36 @@ function validate(e) {
   locationValid = false;
   cgvValid = false;
 
-  document.getElementById("first").classList.remove("is-valid", "is-invalid");
-  document.getElementById("last").classList.remove("is-valid", "is-invalid");
-  document.getElementById("email").classList.remove("is-valid", "is-invalid");
-  document
-    .getElementById("birthdate")
-    .classList.remove("is-valid", "is-invalid");
-  document
-    .getElementById("quantity")
-    .classList.remove("is-valid", "is-invalid");
+  first.classList.remove("is-valid", "is-invalid");
+  last.classList.remove("is-valid", "is-invalid");
+  mail.classList.remove("is-valid", "is-invalid");
+  birthdate.classList.remove("is-valid", "is-invalid");
+  quantity.classList.remove("is-valid", "is-invalid");
 
   // first name validation + input color change
   if (firstNameValidation()) {
     firstNameValid = true;
   }
-  document.getElementById("first").classList.add("is-valid");
 
   //last name validation + input color change
   if (lastNameValidation()) {
     lastNameValid = true;
   }
-  document
-    .getElementById("last")
-    .classList.add(lastNameValid ? "is-valid" : "is-invalid");
 
   // email Validation + input color change
   if (emailValidation()) {
     emailValid = true;
   }
-  document
-    .getElementById("email")
-    .classList.add(emailValid ? "is-valid" : "is-invalid");
 
   // birthdate validation + input color change
   if (birthdateValidation()) {
     birthdateValid = true;
   }
-  document
-    .getElementById("birthdate")
-    .classList.add(birthdateValid ? "is-valid" : "is-invalid");
 
   // quantity validation + input color change
   if (quantityValidation()) {
     quantityValid = true;
   }
-  document
-    .getElementById("quantity")
-    .classList.add(quantityValid ? "is-valid" : "is-invalid");
 
   // location validation + input color change
   if (locationValidation()) {
