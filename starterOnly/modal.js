@@ -152,7 +152,7 @@ function birthdateValidation() {
   }
 
   if (
-    !regDate.test(userBirthdate) ||
+    !regDate.test(userBirthdate) &&
     todayYear <= userBirthdate ||
     todayYear - userBirthdate > 100
   ) {
